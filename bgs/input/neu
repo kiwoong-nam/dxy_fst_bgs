@@ -1,0 +1,20 @@
+initialize() {
+ initializeMutationRate(1.2e-8); //PMID: 23001126
+ initializeMutationType("m1", 0.5, "f", 0.0);
+ initializeMutationType("m2", 1.0, "f", -0.0005); // introduced mutation
+ initializeGenomicElementType("g1", c(m1,m2), c(1,0));
+ initializeGenomicElement(g1, 0, 1999999);
+ initializeRecombinationRate(1.19e-10); // PMID: 12053178
+}
+1 early() { sim.addSubpop("p1", 6200); } // PMID: 17351134
+31000 early()
+{
+ sim.addSubpopSplit("p2", 3100, p1);
+ p1.setMigrationRates(p2, 0.001);
+ p2.setMigrationRates(p1, 0);
+}
+34120 late()
+{
+  p1.outputVCFSample(100);
+  p2.outputVCFSample(100);
+}
